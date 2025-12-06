@@ -2,11 +2,13 @@ Pages:
 
 Home page should be protected (only accessible to authenticated users). STATUS:
 
-Contact Us page (not protected) contains basic contact information. STATUS:
+Contact Us page (not protected) contains basic contact information. STATUS: DONE
 
 Signup page allows user registration with email and password; resembles Figure 1a. STATUS:
 
 Login page allows registered user login with email and password; contains button to redirect to signup page; resembles Figure 1b. STATUS:
+
+
 
 Signup/Login Functionality:
 
@@ -18,7 +20,7 @@ Login page successfully authenticates user and receives JWT. STATUS:
 
 Home Page Features:
 
-Automatically fetches and displays all posts from the database. STATUS:
+Automatically fetches and displays all posts from the database. STATUS: DONE
 
 Each post is clickable and redirects to the “a post” page. STATUS:
 
@@ -72,4 +74,4 @@ Authentication handled using JWT techniques only. STATUS:
 
 Database:
 
-All required tables are automatically created when the back-end runs. STATUS:
+All required tables are automatically created when the back-end runs. STATUS: DONE
