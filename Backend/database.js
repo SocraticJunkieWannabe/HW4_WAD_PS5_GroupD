@@ -31,12 +31,12 @@ async function insertDefaultPosts()
     const count = parseInt(res.rows[0].count, 10);
     //only add the default columns if the database is empty
     if (count === 0) {
-        posts.forEach(item => {
-            pool.query( // insert post
+        for (const item of posts) {
+            await pool.query(// insert post
                 'INSERT INTO posts(body, author_name, create_time, profile_picture, likes, img) values ($1, $2, $3, $4, $5, $6) RETURNING*', 
                 [item.body, item.author_name, item.create_time, item.profile_picture, 0, item.img]
             );
-        });
+        };
     } 
 }
 

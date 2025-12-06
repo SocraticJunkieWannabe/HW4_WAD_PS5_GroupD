@@ -1,6 +1,6 @@
 <template>
   <button class="resetButton" v-on:click="Logout"> Log out </button>
-  <posts-compo></posts-compo>
+  <posts-compo ref = "childComp"></posts-compo>
   <div class="post-actions">
     <button class="addPost" v-on:click="AddPost"> Add Post </button>
     <button class="deleteAllButton" v-on:click="DeleteAll"> Delete All </button>
@@ -19,7 +19,13 @@ export default {
 
   methods: {
     DeleteAll: function() {
-        
+        fetch('http://localhost:3000/posts/deleteAll', {
+          method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+          this.$refs.childComp.postList();
+        })  
     },
     AddPost: function() {
         this.$router.push('/post')

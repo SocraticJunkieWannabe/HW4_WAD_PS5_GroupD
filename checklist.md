@@ -28,7 +28,7 @@ Logout button logs out user and redirects to login page. STATUS:
 
 Add post button redirects to add post page. STATUS:
 
-Delete all button deletes all posts from the database. STATUS:
+Delete all button deletes all posts from the database. STATUS: DONE
 
 Home page resembles Figure 2. STATUS:
 

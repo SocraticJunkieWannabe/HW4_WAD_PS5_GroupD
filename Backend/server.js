@@ -21,6 +21,16 @@ app.get('/posts/getAll', async(req, res) => {
     }
 });
 
+app.delete('/posts/deleteALl', async(req, res) => {
+    try {
+        console.log("a delete all posts request has arrived");
+        const posts = await pool.query('TRUNCATE TABLE "posts";');
+        res.status(200).json({ message: "All posts deleted" });
+    } catch (error) {
+        res.status(401).json({ error: error.message });
+    }
+});
+
 app.listen(port, () => {
     console.log("Server is listening to port " + port)
 });
