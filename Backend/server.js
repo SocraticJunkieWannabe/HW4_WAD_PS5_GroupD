@@ -11,9 +11,15 @@ app.use(cors());
 // It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json());
 
-
-    //  Handling HTTP requests code will go here  
-
+app.get('/posts/getAll', async(req, res) => {
+    try {
+        console.log("a posts request has arrived");
+        const posts = await pool.query('SELECT * FROM "posts"');
+        res.status(200).json(posts.rows);
+    } catch (error) {
+        res.status(401).json({ error: error.message });
+    }
+});
 
 app.listen(port, () => {
     console.log("Server is listening to port " + port)

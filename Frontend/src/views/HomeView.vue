@@ -1,7 +1,10 @@
 <template>
   <button class="resetButton" v-on:click="Logout"> Log out </button>
   <posts-compo></posts-compo>
-  <button class="resetButton" v-on:click="ResetLikes"> Reset likes </button>
+  <div class="post-actions">
+    <button class="addPost" v-on:click="AddPost"> Add Post </button>
+    <button class="deleteAllButton" v-on:click="DeleteAll"> Delete All </button>
+  </div>
 </template>
 
 <script>
@@ -15,8 +18,11 @@ export default {
   },
 
   methods: {
-    ResetLikes: function() {
-        this.$store.dispatch("ResetLikesAct")
+    DeleteAll: function() {
+        
+    },
+    AddPost: function() {
+        this.$router.push('/post')
     },
     Logout: function(){
 
@@ -35,5 +41,10 @@ button {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.post-actions 
+{
+  display: flex;
+  justify-content: space-between;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class=posts-container id="posts-container">
-      <div class="post" v-for = "post in postList" :key="post.id" style="width: 300px;"> <!-- default width-->
+      <div class="post" v-for = "post in posts" :key="post.id" style="width: 300px;"> <!-- default width-->
           <div class="post-header">
             <div class="post-header-right">
                 <img class="post-author-pfp" :src="getImage(post.profile_picture)" width="50" height="50"> 
@@ -32,11 +32,6 @@ export default {
   props: {
     msg: String
   },
-  computed: {
-    postList(){
-      return this.$store.getters.postList
-    },
-  },
   methods: {
     getImage(filename) {
       if (filename != "" && filename != undefined){
@@ -46,11 +41,22 @@ export default {
     },
     increaseLikes(id){
       this.$store.dispatch("IncreaseLikesAct", id)
-    }
+    },
+    async postList(){
+      const response = await fetch("http://localhost:3000/posts/getAll");
+      const data = await response.json();
+          
+      this.posts = data;
+      console.log(data);
+    },
+  },
+  mounted() {
+    this.postList();  // fetch posts when component mounts
   },
   data() {
     return {
-      likeImg
+      likeImg,
+      posts: []  
     };
   }
 }

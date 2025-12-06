@@ -21,8 +21,27 @@ const execute = async(query) => {
     }
 };
 
+//upload default post to database
+async function insertDefaultPosts()
+{
+    const jsonData = await fs.readFile("posts.json", 'utf8');
+    const posts = JSON.parse(jsonData);
+
+    const res = await pool.query('SELECT COUNT(*) FROM posts');
+    const count = parseInt(res.rows[0].count, 10);
+    //only add the default columns if the database is empty
+    if (count === 0) {
+        posts.forEach(item => {
+            pool.query( // insert post
+                'INSERT INTO posts(body, author_name, create_time, profile_picture, likes, img) values ($1, $2, $3, $4, $5, $6) RETURNING*', 
+                [item.body, item.author_name, item.create_time, item.profile_picture, 0, item.img]
+            );
+        });
+    } 
+}
+
 const createPostTblQuery = `
-    CREATE TABLE IF NOT EXISTS posts (
+    CREATE TABLE IF NOT EXISTS "posts" (
         id SERIAL PRIMARY KEY,
         body TEXT NOT NULL,
         author_name VARCHAR(200) NOT NULL,
@@ -35,6 +54,7 @@ const createPostTblQuery = `
 execute(createPostTblQuery).then(result => {
     if (result) {
         console.log('Table "posts" is created');
+        insertDefaultPosts();
     }
 });
 
@@ -51,20 +71,6 @@ execute(createUserTblQuery).then(result => {
     }
 });
 
-//upload default post to database
-async function insertPosts()
-{
-    const jsonData = await fs.readFile("posts.json", 'utf8');
-    const posts = JSON.parse(jsonData);
 
-    posts.forEach(item => {
-        pool.query( // insert post
-            "INSERT INTO posts(body, author_name, create_time, profile_picture, likes, img) values ($1, $2, $3, $4, $5, $6) RETURNING*", 
-            [item.body, item.author_name, item.create_time, item.profile_picture, 0, item.img]
-        );
-    });
-}
-
-insertPosts();
 
 module.exports = pool;
