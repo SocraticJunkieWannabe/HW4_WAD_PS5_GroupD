@@ -13,6 +13,9 @@ export default {
 name: "App",
 components: { HeaderCompo, FooterCompo},
 
+
+  //make it so that user can't reach homeview if not logged in
+
 }
 
 </script>

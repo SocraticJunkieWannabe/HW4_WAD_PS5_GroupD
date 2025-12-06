@@ -11,10 +11,10 @@ app.use(cors());
 // It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json());
 
-``````````````
+
     //  Handling HTTP requests code will go here  
 
-``````````````
+
 app.listen(port, () => {
     console.log("Server is listening to port " + port)
 });

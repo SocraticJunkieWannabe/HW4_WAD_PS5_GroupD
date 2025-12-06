@@ -1,4 +1,5 @@
 <template>
+  <button class="resetButton" v-on:click="Logout"> Log out </button>
   <posts-compo></posts-compo>
   <button class="resetButton" v-on:click="ResetLikes"> Reset likes </button>
 </template>
@@ -15,7 +16,10 @@ export default {
 
   methods: {
     ResetLikes: function() {
-        this.$store.dispatch("ResetLikesAct") 
+        this.$store.dispatch("ResetLikesAct")
+    },
+    Logout: function(){
+
     }
   }
 
@@ -23,7 +27,7 @@ export default {
 </script>
 
 <style scoped>
-.resetButton {
+button {
   margin-top: 75px;
   border-radius: 30px;
   width: fit-content;
