@@ -44,7 +44,7 @@ export default {
     },
     openPost(id) {
       console.log("Clicked post:", id);
-      this.$router.push({ name: 'PostView', params: { id } });
+      this.$router.push({ name: 'post', params: { id } });
     },
     async postList(){
       const response = await fetch("http://localhost:3000/posts/getAll");

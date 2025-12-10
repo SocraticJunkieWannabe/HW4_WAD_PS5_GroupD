@@ -1,16 +1,12 @@
 <template>
-
-  <div class="post" style="width: 300px;"> <!-- default width-->
     <div class="post-content">
-      <img class="post-image" :src="getImage(post.image)"> 
+      <h1>Body </h1> 
       <textarea class="post-description" v-model="postBody" style="width: 300px; height: 100px;">{{post.body}}</textarea>
+      <div class="buttons">
+        <button class="update" v-on:click="UpdatePost">Update Post</button>
+        <button class="delete" v-on:click="DeletePost">Delete Post</button>
+      </div>
     </div>
-
-    <div class="post-footer">
-        <input type="image" :src="likeImg" width="50" height="50" @click="increaseLikes(post.id)"> 
-        <p class="likes">{{post.likes}}</p>
-    </div>
-  </div>
 
 </template>
 
@@ -18,15 +14,15 @@
   export default {
   name: 'PostView',
   methods: {
-    async post(id) {
-      const response = await fetch("http://localhost:3000/post/get/${id}");
+    async post() {
+      const response = await fetch("http://localhost:3000/post/get/${this.postId }");
       const data = await response.json();
           
       this.post = data;
       console.log(data);
     },
-    UpdatePost: function(id) {
-        fetch('/post/update/${id}', {
+    UpdatePost: function() {
+        fetch('/post/update/${this.postId }', {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -34,19 +30,20 @@
             })
         });
     },
-    DeletePost: function(id) {
-        fetch('/post/delete/${id}', {
+    DeletePost: function() {
+        fetch('/post/delete/${this.postId }', {
             method: "DELETE"
         });
     }, 
     mounted() {
-      const postId = this.$route.params.id
-      console.log(postId)
-      this.post(postId);  // fetch posts when component mounts
+      this.postId = this.$route.params.id
+      console.log(this.postId)
+      this.post();  // fetch posts when component mounts
     },
     data() {
       return {
         post: {},
+        postId,
         postBody
       };
     }
@@ -55,3 +52,15 @@
 }
     
 </script>
+
+<style scoped>
+.post-content {
+    display: flex;              /* enable flexbox */
+    flex-direction: column;    /* center horizontally */
+    align-items: center;        /* center vertically */
+}
+.buttons {
+  display: flex;  
+  justify-content: space-between;
+}
+</style>
