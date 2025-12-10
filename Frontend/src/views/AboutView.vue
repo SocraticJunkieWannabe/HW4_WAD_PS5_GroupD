@@ -1,8 +1,8 @@
 <template>
   <div class="about">
-    <p>loic.delattre@ecam.fr</p>
-    <p>mattis.roellinger@ecam.fr</p>
-    <p>g.le-chartier@ecam.fr</p>
+    <a href="https://youtu.be/xvFZjo5PgG0?si=EyZoo-X4JMiFE5Ac?autoplay=1">loic.delattre@ecam.fr</a><br>
+    <a href="https://youtu.be/xvFZjo5PgG0?si=EyZoo-X4JMiFE5Ac?autoplay=1">mattis.roellinger@ecam.fr</a><br>
+    <a href="https://youtu.be/xvFZjo5PgG0?si=EyZoo-X4JMiFE5Ac?autoplay=1">g.le-chartier@ecam.fr</a><br>
   </div>
 </template>
 
