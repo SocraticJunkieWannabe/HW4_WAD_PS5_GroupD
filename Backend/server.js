@@ -174,7 +174,7 @@ app.put('/post/update/:id', async (req, res) => {
 
         const result = await pool.query(
             `UPDATE "posts"
-             SET body = $1,
+             SET body = $1
              WHERE id = $2
              RETURNING *`,
             [body, id]
