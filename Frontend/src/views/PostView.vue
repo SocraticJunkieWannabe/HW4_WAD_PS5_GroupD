@@ -17,7 +17,6 @@
 <script>
   export default {
   name: 'PostView',
-
   methods: {
     async post(id) {
       const response = await fetch("http://localhost:3000/post/get/${id}");
@@ -41,7 +40,9 @@
         });
     }, 
     mounted() {
-      this.post();  // fetch posts when component mounts
+      const postId = this.$route.params.id
+      console.log(postId)
+      this.post(postId);  // fetch posts when component mounts
     },
     data() {
       return {

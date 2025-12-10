@@ -1,6 +1,6 @@
 <template>
   <div class=posts-container id="posts-container">
-      <div class="post" v-for = "post in posts" :key="post.id" style="width: 300px;"> <!-- default width-->
+      <div class="post" v-for = "post in posts" :key="post.id" style="width: 300px;" @click="openPost(post.id)"> <!-- default width-->
           <div class="post-header">
             <div class="post-header-right">
                 <img class="post-author-pfp" :src="getImage(post.profile_picture)" width="50" height="50"> 
@@ -41,6 +41,10 @@ export default {
     },
     increaseLikes(id){
       this.$store.dispatch("IncreaseLikesAct", id)
+    },
+    openPost(id) {
+      console.log("Clicked post:", id);
+      this.$router.push({ name: 'PostView', params: { id } });
     },
     async postList(){
       const response = await fetch("http://localhost:3000/posts/getAll");
