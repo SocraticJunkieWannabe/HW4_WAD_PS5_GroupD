@@ -72,6 +72,11 @@
       </div>
     </main>
 
+  
+  <div v-if="authError" class="error-bubble">
+  {{ authError }}
+  </div>
+
 </template>
 
 <script>
@@ -80,7 +85,7 @@ export default {
 
   data() {
     return {
-      currentForm: 'login',   // default to login, or 'register' if you prefer
+      currentForm: 'login',
       forgotEmail: '',
       loginEmail: '',
       loginPassword: '',
@@ -118,7 +123,7 @@ export default {
       return '';
     },
 
-    // Password validation (kept from your existing rules)
+    // Password validation
     passwordErrors() {
       const errors = [];
 
@@ -156,6 +161,15 @@ export default {
         this.regPassword.trim() !== '' &&
         this.regPassword === this.regConfirmPassword
       );
+    }
+  },
+
+  mounted() {
+    if (this.$route.query.message) {
+     this.authError = this.$route.query.message
+     setTimeout(() => {
+      this.authError = ''
+      }, 4000);
     }
   },
 

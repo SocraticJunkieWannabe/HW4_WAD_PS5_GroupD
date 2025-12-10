@@ -1,5 +1,4 @@
 <template>
-  <button class="resetButton" v-on:click="Logout"> Log out </button>
   <posts-compo ref = "childComp"></posts-compo>
   <div class="post-actions">
     <button class="addPost" v-on:click="AddPost"> Add Post </button>

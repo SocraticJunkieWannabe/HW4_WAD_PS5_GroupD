@@ -1,14 +1,10 @@
 <template>
     <div class="new-post">
         <h1>Create a New Post</h1>
-        <form>
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required />
-        </div>
+        <form @submit.prevent="handleSubmit">
         <div>
             <label for="content">Content:</label>
-            <textarea id="content" name="content" required></textarea>
+            <textarea v-model="content" id="content" name="content" required></textarea>
         </div>
         <button type="submit">Submit</button>
         </form>
@@ -18,8 +14,48 @@
 <script>
 export default {
   name: 'NewPost',
-  props: {
-    msg: String
+  data() {
+    return {
+      content: ''
+    }
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        // Get JWT token from localStorage (saved during login)
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+          alert('You must be logged in to create a post');
+          this.$router.push('/signup');
+          return;
+        }
+
+        const response = await fetch('http://localhost:3000/posts/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`  // Send JWT token
+          },
+          body: JSON.stringify({
+            body: this.content
+          })
+        });
+
+        if (response.ok) {
+          alert('Post created successfully!');
+          this.content = '';
+          // Optionally redirect to home page
+          // this.$router.push('/');
+        } else {
+          const error = await response.json();
+          alert(`Failed to create post: ${error.message || 'Unknown error'}`);
+        }
+      } catch (error) {
+        console.error('Error creating post:', error);
+        alert('Error creating post');
+      }
+    }
   }
 }
 

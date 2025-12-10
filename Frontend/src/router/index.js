@@ -53,16 +53,20 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth && !token) {
     return next({
       name: 'signup',
-      query: { redirect: to.fullPath }
+      query: {
+        redirect: to.fullPath,
+        message: 'You must be logged in to access the home page'
+      }
     })
   }
 
-  // Already logged in → block access to signup page
+  // Already logged in = block access to signup page
   if (to.name === 'signup' && token) {
     return next({ name: 'home' })
   }
 
   next()
 })
+
 
 export default router

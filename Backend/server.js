@@ -154,6 +154,28 @@ app.get('/posts/getAll', async(req, res) => {
     }
 });
 
+// CREATE a new post (protected route)
+app.post('/posts/create', authMiddleware, async(req, res) => {
+    try {
+        console.log("a create post request has arrived");
+        const { body } = req.body;
+        
+        // Get author_name from the authenticated user's email
+        const author_name = req.user.email;
+        
+        // Insert post with required fields and placeholders for optional ones
+        const newPost = await pool.query(
+            'INSERT INTO posts(body, author_name, create_time, profile_picture, likes, img) VALUES ($1, $2, NOW(), $3, 0, $4) RETURNING *',
+            [body, author_name, null, null]  // null = placeholder for profile_picture and img
+        );
+        
+        res.status(201).json(newPost.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 app.delete('/posts/deleteALl', async(req, res) => {
     try {
         console.log("a delete all posts request has arrived");
