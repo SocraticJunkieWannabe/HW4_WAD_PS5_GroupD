@@ -23,14 +23,22 @@
       console.log(this.post.body);
     },
     UpdatePost: function() {
-        fetch(`/post/update/${this.postId}`, {
+        fetch(`http://localhost:3000/post/update/${this.postId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ body: this.postBody })
-        });
+        })
+        .then(res => {
+          console.log("Response status:", res.status);
+          return res.json();
+        })
+        .then(data => {
+          console.log("Updated post:", data);
+        })
+        .catch(err => console.error("Fetch error:", err));
     },
     DeletePost: function() {
-        fetch(`/post/delete/${this.postId}`, {
+        fetch(`http://localhost:3000/post/delete/${this.postId}`, {
             method: "DELETE"
         });
     } 
