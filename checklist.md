@@ -62,7 +62,7 @@ Back-end Requirements:
 
 Handles all required CRUD operations for front-end requests. STATUS:
 
-Works only with JSON data (no static files like images). STATUS: 
+Works only with JSON data (no static files like images). STATUS: DONE
 
 
 
