@@ -40,6 +40,9 @@
     DeletePost: function() {
         fetch(`http://localhost:3000/post/delete/${this.postId}`, {
             method: "DELETE"
+        })
+        .then(res=> {
+            this.$router.push('/');
         });
     } 
   },

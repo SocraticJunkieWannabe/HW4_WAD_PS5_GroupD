@@ -44,17 +44,17 @@ Page resembles Figure 3. STATUS:
 
 
 
-A Post Page:
+A Post Page: DONE
 
-Fetches and displays specific post clicked from home page. STATUS:
+Fetches and displays specific post clicked from home page. STATUS: DONE
 
-Update button updates the post in the database. STATUS:
+Update button updates the post in the database. STATUS: DONE
 
-Delete button deletes the post from the database. STATUS:
+Delete button deletes the post from the database. STATUS: DONE
 
 Page resembles Figure 4. STATUS: DONE
 
-Only accessible to logged-in users. STATUS:
+Only accessible to logged-in users. STATUS: DONE
 
 
 
