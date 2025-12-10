@@ -58,14 +58,6 @@ Only accessible to logged-in users. STATUS: DONE
 
 
 
-Back-end Requirements:
-
-Handles all required CRUD operations for front-end requests. STATUS:
-
-Works only with JSON data (no static files like images). STATUS:
-
-
-
 Security:
 
 Authentication handled using JWT techniques only. STATUS:
