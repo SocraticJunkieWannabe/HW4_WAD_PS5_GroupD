@@ -228,15 +228,11 @@ export default {
           return;
         }
 
-        // Option 1: log in immediately
         localStorage.setItem('token', data.token);
         localStorage.setItem('userEmail', data.user.email);
         const redirectPath = this.$route.query.redirect || '/';
         this.$router.push(redirectPath);
 
-        // Option 2 (if you prefer): comment out above 3 lines
-        // and just switch back to login form with a message
-        // this.showLoginForm();
       } catch (err) {
         console.error(err);
         this.authError = 'An error occurred during registration';
@@ -244,7 +240,6 @@ export default {
     },
 
     handleResetPassword() {
-      // For now, just go back to login
       this.showLoginForm();
     }
   }
