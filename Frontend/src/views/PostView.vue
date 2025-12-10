@@ -30,12 +30,9 @@
         })
         .then(res => {
           console.log("Response status:", res.status);
+          this.$router.push('/');
           return res.json();
-        })
-        .then(data => {
-          console.log("Updated post:", data);
-        })
-        .catch(err => console.error("Fetch error:", err));
+        });
     },
     DeletePost: function() {
         fetch(`http://localhost:3000/post/delete/${this.postId}`, {

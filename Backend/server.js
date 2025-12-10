@@ -147,7 +147,7 @@ app.get('/auth/me', authMiddleware, async (req, res) => {
 app.get('/posts/getAll', async(req, res) => {
     try {
         console.log("a posts request has arrived");
-        const posts = await pool.query('SELECT * FROM "posts"');
+        const posts = await pool.query('SELECT * FROM "posts" ORDER BY id ASC');
         res.status(200).json(posts.rows);
     } catch (error) {
         res.status(401).json({ error: error.message });

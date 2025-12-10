@@ -17,7 +17,7 @@
           </div>
 
           <div class="post-footer">
-              <input type="image" :src="likeImg" width="50" height="50" @click="increaseLikes(post.id)"> 
+              <input type="image" :src="likeImg" width="50" height="50" @click.stop="increaseLikes(post.id)"> 
               <p class="likes">{{post.likes}}</p>
           </div>
       </div>
