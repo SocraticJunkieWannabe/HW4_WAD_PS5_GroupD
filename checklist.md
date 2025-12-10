@@ -22,15 +22,15 @@ Home Page Features:
 
 Automatically fetches and displays all posts from the database. STATUS: DONE
 
-Each post is clickable and redirects to the “a post” page. STATUS:
+Each post is clickable and redirects to the “a post” page. STATUS: DONE
 
-Logout button logs out user and redirects to login page. STATUS:
+Logout button logs out user and redirects to login page. STATUS: DONE
 
-Add post button redirects to add post page. STATUS:
+Add post button redirects to add post page. STATUS: DONE
 
 Delete all button deletes all posts from the database. STATUS: DONE
 
-Home page resembles Figure 2. STATUS:
+Home page resembles Figure 2. STATUS: DONE
 
 
 
@@ -60,7 +60,7 @@ Only accessible to logged-in users. STATUS: DONE
 
 Security:
 
-Authentication handled using JWT techniques only. STATUS:
+Authentication handled using JWT techniques only. STATUS: DONE
 
 
 
