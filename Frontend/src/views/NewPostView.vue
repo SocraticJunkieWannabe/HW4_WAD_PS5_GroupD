@@ -1,5 +1,7 @@
 <template>
-
+  <div class="NewPost_page">
+    <NewPost />
+  </div>
 </template>
 
 <script>
@@ -11,24 +13,6 @@ export default {
   components: {
     NewPost
   },
-
-  methods: {
-    DeleteAll: function() {
-        fetch('http://localhost:3000/posts/deleteAll', {
-          method: 'DELETE',
-        })
-        .then(response => response.json())
-        .then(data => {
-          this.$refs.childComp.postList();
-        })  
-    },
-    AddPost: function() {
-        this.$router.push('/post')
-    },
-    Logout: function(){
-
-    }
-  }
 
 }
 </script>
