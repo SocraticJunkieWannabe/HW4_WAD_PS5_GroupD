@@ -4,6 +4,8 @@
       <router-link to="/">Home</router-link>
       <li> | </li>
       <router-link to="/about">Contact Us</router-link>
+      <router-link v-if="!isLoggedIn" to="/signup">Login / Signup</router-link>
+      <button v-else @click="logout">Logout</button>
     </div>
   </nav>
 </template>
@@ -11,13 +13,25 @@
 <script>
 export default {
   name: 'Header',
+
   props: {
     msg: String
+  },
+
+  computed: {
+    // Check if the user is logged in
+    isLoggedIn() {
+      return !!localStorage.getItem('token')
+    }
+  },
+
+  methods: {
+    logout() {
+      localStorage.removeItem('token')
+      this.$router.push('/signup')
+    }
   }
 }
-
-//integrate code for dropdown menu
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
