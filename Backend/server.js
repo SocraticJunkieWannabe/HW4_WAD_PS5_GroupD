@@ -11,6 +11,8 @@ app.use(cors());
 // It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json());
 
+//ALL POSTS ACTIONS
+
 app.get('/posts/getAll', async(req, res) => {
     try {
         console.log("a posts request has arrived");
@@ -21,7 +23,18 @@ app.get('/posts/getAll', async(req, res) => {
     }
 });
 
-app.put('post/update/:id', async (req, res) => {
+app.delete('/posts/deleteALl', async(req, res) => {
+    try {
+        console.log("a delete all posts request has arrived");
+        const posts = await pool.query('TRUNCATE TABLE "posts";');
+        res.status(200).json({ message: "All posts deleted" });
+    } catch (error) {
+        res.status(401).json({ error: error.message });
+    }
+});
+
+//SINGLE POST REQUESTS
+app.put('/post/update/:id', async (req, res) => {
     const { id } = req.params;
     const { body } = req.body;
 
@@ -47,11 +60,38 @@ app.put('post/update/:id', async (req, res) => {
 
 });
 
-app.delete('/posts/deleteALl', async(req, res) => {
+app.delete('/post/delete/:id', async(req, res) => {
+    const { id } = req.params;
+
     try {
-        console.log("a delete all posts request has arrived");
-        const posts = await pool.query('TRUNCATE TABLE "posts";');
-        res.status(200).json({ message: "All posts deleted" });
+        console.log("a delete post request has arrived");
+        const result = await pool.query('DELETE FROM "posts" WHERE id = $1;', [id]);
+        
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+
+        res.status(200).json({ message: "post ${id} deleted", deleted: result.rows[0]});
+
+    } catch (error) {
+        res.status(401).json({ error: error.message });
+    }
+});
+
+app.get('/post/get/:id', async(req, res) => {
+
+    const { id } = req.params;
+
+    try {
+        console.log("post request for post id ${id} has arrived");
+        const post = await pool.query('SELECT $id FROM "posts"', [id]);
+
+        if (post.rowCount === 0) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+        
+        res.status(200).json(post.rows);
     } catch (error) {
         res.status(401).json({ error: error.message });
     }

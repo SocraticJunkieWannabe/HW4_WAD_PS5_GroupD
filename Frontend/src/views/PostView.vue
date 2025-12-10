@@ -1,18 +1,35 @@
 <script>export default {
   name: 'PostView',
-  components: {
-    PostsCompo
-  },
 
   methods: {
+    async post(id) {
+      const response = await fetch("http://localhost:3000/post/get/${id}");
+      const data = await response.json();
+          
+      this.post = data;
+      console.log(data);
+    },
     UpdatePost: function(id, newBody) {
-        fetch('/posts/update/${id}', {
+        fetch('/post/update/${id}', {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 content: newBody
             })
         });
+    },
+    DeletePost: function(id) {
+        fetch('/post/delete/${id}', {
+            method: "DELETE"
+        });
+    }, 
+    mounted() {
+      this.post();  // fetch posts when component mounts
+    },
+    data() {
+      return {
+        post: {}
+      };
     }
   }
 
