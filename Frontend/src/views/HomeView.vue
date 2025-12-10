@@ -28,7 +28,7 @@ export default {
         })  
     },
     AddPost: function() {
-        this.$router.push('/post')
+        this.$router.push('/NewPost')
     },
     Logout: function(){
 
