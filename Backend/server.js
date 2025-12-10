@@ -11,6 +11,39 @@ app.use(cors());
 // It parses incoming requests with JSON payloads and is based on body-parser.
 app.use(express.json());
 
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
+
+// Utility to generate a token
+function generateToken(user) {
+  return jwt.sign(
+    { id: user.id, email: user.email },
+    JWT_SECRET,
+    { expiresIn: JWT_EXPIRES_IN }
+  );
+}
+
+// Middleware to protect routes
+function authMiddleware(req, res, next) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.split(' ')[1]; // "Bearer <token>"
+
+  if (!token) {
+    return res.status(401).json({ message: 'Missing authentication token' });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, payload) => {
+    if (err) {
+      return res.status(401).json({ message: 'Invalid or expired token' });
+    }
+    req.user = payload; // { id, email }
+    next();
+  });
+}
+
 //ALL POSTS ACTIONS
 
 app.get('/posts/getAll', async(req, res) => {
