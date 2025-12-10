@@ -1,7 +1,7 @@
 <template>
     <div class="post-content">
       <h1>Body </h1> 
-      <textarea class="post-description" v-model="postBody" style="width: 300px; height: 100px;">{{post.body}}</textarea>
+      <textarea class="post-description" v-model="postBody" style="width: 300px; height: 100px;"></textarea>
       <div class="buttons">
         <button class="update" v-on:click="UpdatePost">Update Post</button>
         <button class="delete" v-on:click="DeletePost">Delete Post</button>
@@ -19,15 +19,14 @@
       const data = await response.json();
           
       this.post = data;
-      console.log(this.post);
+      this.postBody = data.body
+      console.log(this.post.body);
     },
     UpdatePost: function() {
         fetch(`/post/update/${this.postId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                content: this.postBody
-            })
+            body: JSON.stringify({ body: this.postBody })
         });
     },
     DeletePost: function() {
