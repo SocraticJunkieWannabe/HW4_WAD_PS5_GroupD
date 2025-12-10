@@ -73,34 +73,38 @@
     </main>
 
 </template>
-<script>
 
+<script>
 export default {
   name: 'Signup',
 
-
   data() {
     return {
-      currentForm: 'register',
+      currentForm: 'login',   // default to login, or 'register' if you prefer
       forgotEmail: '',
       loginEmail: '',
       loginPassword: '',
       regEmail: '',
       regPassword: '',
-      regConfirmPassword: ''
-    }
+      regConfirmPassword: '',
+      authError: ''           // to show backend errors
+    };
   },
+
   computed: {
-
-    isForgotPasswordValid() {
-      return this.forgotEmail.trim() !== '' && this.forgotEmail.includes('@');
-    },
-
     isLoginValid() {
-      return this.loginEmail.trim() !== '' && this.loginEmail.includes('@') && this.loginPassword.trim() !== '';
+      return this.loginEmail.trim() !== '' && this.loginPassword.trim() !== '';
     },
 
-    isEmailValid() {
+    isRegistrationValid() {
+      return (
+        this.regEmailValid &&
+        this.passwordErrors.length === 0 &&
+        this.passwordsMatch
+      );
+    },
+
+    regEmailValid() {
       return this.regEmail.trim() !== '' && this.regEmail.includes('@');
     },
 
@@ -114,14 +118,14 @@ export default {
       return '';
     },
 
-    // Validation of password using previously acquired input field data and homework requirements
+    // Password validation (kept from your existing rules)
     passwordErrors() {
       const errors = [];
-      
+
       if (this.regPassword.trim() === '') {
         return errors;
       }
-      
+
       if (!/^[A-Z]/.test(this.regPassword)) {
         errors.push('Must start with an uppercase letter');
       }
@@ -143,60 +147,108 @@ export default {
       if (!this.regPassword.includes('_')) {
         errors.push('Must contain an underscore (_)');
       }
-      
+
       return errors;
     },
 
     passwordsMatch() {
-      return this.regPassword === this.regConfirmPassword;
-    },
-
-// Validation of registration used to enable/disable the register button
-    isRegistrationValid() {
-
-      return this.isEmailValid && 
-             this.regPassword.trim() !== '' && 
-             this.regPassword.length >= 8 &&
-             this.regPassword.length <= 15 &&
-             this.regPassword.includes('_') &&
-             /[A-Z]/.test(this.regPassword) &&
-             (this.regPassword.match(/[a-z]/g) || []).length >= 2 &&
-             /\d/.test(this.regPassword) &&
-             /^[A-Z]/.test(this.regPassword) &&
-             this.passwordsMatch;
+      return (
+        this.regPassword.trim() !== '' &&
+        this.regPassword === this.regConfirmPassword
+      );
     }
   },
 
-  // Methods 
-  // used to change the displayed form and 
-  // redirection to index page when submitting the form (logging in and registering)
   methods: {
     showLoginForm() {
       this.currentForm = 'login';
+      this.authError = '';
     },
     showRegisterForm() {
       this.currentForm = 'register';
+      this.authError = '';
     },
-    showForgotPassword() {
+    showForgotForm() {
       this.currentForm = 'forgot';
+      this.authError = '';
     },
-    handleLogin() {
-     
-      window.location.href = 'index.html';
+
+    async handleLogin() {
+      this.authError = '';
+      try {
+        const res = await fetch('http://localhost:3000/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: this.loginEmail,
+            password: this.loginPassword
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          this.authError = data.message || 'Login failed';
+          return;
+        }
+
+        // Save token and (optionally) user info
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userEmail', data.user.email);
+
+        // Redirect to home (protected route)
+        const redirectPath = this.$route.query.redirect || '/';
+        this.$router.push(redirectPath);
+      } catch (err) {
+        console.error(err);
+        this.authError = 'An error occurred during login';
+      }
     },
-    handleRegister() {
-      
-      window.location.href = 'index.html';
+
+    async handleRegister() {
+      this.authError = '';
+      try {
+        const res = await fetch('http://localhost:3000/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: this.regEmail,
+            password: this.regPassword
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          this.authError = data.message || 'Registration failed';
+          return;
+        }
+
+        // Option 1: log in immediately
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('userEmail', data.user.email);
+        const redirectPath = this.$route.query.redirect || '/';
+        this.$router.push(redirectPath);
+
+        // Option 2 (if you prefer): comment out above 3 lines
+        // and just switch back to login form with a message
+        // this.showLoginForm();
+      } catch (err) {
+        console.error(err);
+        this.authError = 'An error occurred during registration';
+      }
     },
+
     handleResetPassword() {
-      
+      // For now, just go back to login
       this.showLoginForm();
     }
-  },
-  mounted() {
-   
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
