@@ -4,7 +4,7 @@
 
 <script>
 // @ is an alias to /src
-import PostsCompo from "@/components/NewPost.vue"
+import NewPost from "@/components/NewPost.vue"
 
 export default {
   name: 'NewPostView',

@@ -14,15 +14,15 @@
   export default {
   name: 'PostView',
   methods: {
-    async post() {
-      const response = await fetch("http://localhost:3000/post/get/${this.postId }");
+    async fetchPost() {
+      const response = await fetch(`http://localhost:3000/post/get/${this.postId}`);
       const data = await response.json();
           
       this.post = data;
-      console.log(data);
+      console.log(this.post);
     },
     UpdatePost: function() {
-        fetch('/post/update/${this.postId }', {
+        fetch(`/post/update/${this.postId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -31,22 +31,22 @@
         });
     },
     DeletePost: function() {
-        fetch('/post/delete/${this.postId }', {
+        fetch(`/post/delete/${this.postId}`, {
             method: "DELETE"
         });
-    }, 
-    mounted() {
-      this.postId = this.$route.params.id
-      console.log(this.postId)
-      this.post();  // fetch posts when component mounts
-    },
-    data() {
-      return {
-        post: {},
-        postId,
-        postBody
-      };
-    }
+    } 
+  },
+  mounted() 
+  {
+    this.postId = this.$route.params.id
+    this.fetchPost();  // fetch posts when component mounts
+  },
+  data() {
+    return {
+      post: {},
+      postId: 0,
+      postBody: ""
+    };
   }
 
 }

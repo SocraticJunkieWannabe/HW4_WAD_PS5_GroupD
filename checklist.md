@@ -52,7 +52,7 @@ Update button updates the post in the database. STATUS:
 
 Delete button deletes the post from the database. STATUS:
 
-Page resembles Figure 4. STATUS:
+Page resembles Figure 4. STATUS: DONE
 
 Only accessible to logged-in users. STATUS:
 
