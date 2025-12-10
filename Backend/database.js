@@ -1,4 +1,4 @@
-require("dotenv").config();
+const dotenv = require("dotenv").config();
 const fs = require('fs').promises;
 const Pool = require('pg').Pool;
 
