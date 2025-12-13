@@ -7,7 +7,7 @@
                 <p class="username"> {{post.author}}</p>
             </div>
             <div class="post-header-left">
-                <p class="post-date"></p>
+                <p class="post-date">{{ formatDate(post.create_time) }}</p>
             </div>
           </div>
 
@@ -33,6 +33,17 @@ export default {
     msg: String
   },
   methods: {
+    formatDate(timestamp) {
+      if (!timestamp) return '';
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    },
     getImage(filename) {
       if (filename != "" && filename != undefined){
         return require(`@/assets/${filename}`);
